@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<Workspace>
+  <ConfigDictionary>
+    
+  <CurrentConfigs><Project>Gascan/CC2540</Project></CurrentConfigs></ConfigDictionary>
+  <Desktop>
+    <Static>
+      <Workspace>
+        <ColumnWidths>
+          
+          
+          
+          
+        <Column0>113</Column0><Column1>39</Column1><Column2>27</Column2><Column3>0</Column3></ColumnWidths>
+      </Workspace>
+      <Build>
+        
+        
+        
+        
+      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>702</ColumnWidth1><ColumnWidth2>187</ColumnWidth2><ColumnWidth3>46</ColumnWidth3></Build>
+    <Find-in-Files><ColumnWidth0>375</ColumnWidth0><ColumnWidth1>53</ColumnWidth1><ColumnWidth2>643</ColumnWidth2></Find-in-Files><TerminalIO/></Static>
+    <Windows>
+      
+      
+    <Wnd2>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-21927-7985</Identity>
+            <TabName>Workspace</TabName>
+            <Factory>Workspace</Factory>
+            <Session>
+              
+            <NodeDict><ExpandedNode>Gascan</ExpandedNode><ExpandedNode>Gascan/APP</ExpandedNode></NodeDict></Session>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd2><Wnd3>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-2292-8148</Identity>
+            <TabName>Build</TabName>
+            <Factory>Build</Factory>
+            <Session/>
+          </Tab>
+        <Tab><Identity>TabID-30927-30843</Identity><TabName>Find in Files</TabName><Factory>Find-in-Files</Factory><Session/></Tab></Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd3></Windows>
+    <Editor>
+      
+      
+      
+      
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\drv\HX711.c</Filename><XPos>0</XPos><YPos>222</YPos><SelStart>4124</SelStart><SelEnd>4124</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Gascan.c</Filename><XPos>0</XPos><YPos>636</YPos><SelStart>18848</SelStart><SelEnd>18848</SelEnd></Tab><ActiveTab>1</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Parameter.c</Filename><XPos>0</XPos><YPos>14</YPos><SelStart>374</SelStart><SelEnd>374</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Positions>
+      
+      
+      
+      
+      
+    <Top><Row0><Sizes><Toolbar-00c9dbf8><key>iaridepm.enu1</key></Toolbar-00c9dbf8></Sizes></Row0></Top><Left><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>430</Bottom><Right>216</Right><x>-2</x><y>-2</y><xscreen>212</xscreen><yscreen>183</yscreen><sizeHorzCX>229189</sizeHorzCX><sizeHorzCY>236434</sizeHorzCY><sizeVertCX>235676</sizeVertCX><sizeVertCY>558140</sizeVertCY></Rect></Wnd2></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd3><Rect><Top>-2</Top><Left>-2</Left><Bottom>299</Bottom><Right>927</Right><x>-2</x><y>-2</y><xscreen>929</xscreen><yscreen>301</yscreen><sizeHorzCX>1004324</sizeHorzCX><sizeHorzCY>388889</sizeHorzCY><sizeVertCX>229189</sizeVertCX><sizeVertCY>236434</sizeVertCY></Rect></Wnd3></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+  </Desktop>
+</Workspace>
+
+
