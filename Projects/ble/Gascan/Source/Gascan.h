@@ -63,6 +63,9 @@ extern "C"
 
 #define GASCAN_PARSE_PACKET_TIMEOUT_EVT (1 << 3)
 
+//update scan repsonse data event
+#define GASCAN_UPDATE_SCAN_RSP_DATA_EVT (1 << 4)
+
 /*********************************************************************
  * MACROS
  */

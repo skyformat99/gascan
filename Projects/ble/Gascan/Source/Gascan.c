@@ -292,6 +292,9 @@ static uint8 advertData[] =
 // GAP GATT Attributes
 static uint8 attDeviceName[GAP_DEVICE_NAME_LEN];
 
+// whether needs update parameter
+static bool needUpdateParam = false;
+
 /*********************************************************************
  * LOCAL FUNCTIONS
  */
@@ -545,6 +548,25 @@ uint16 Gascan_ProcessEvent(uint8 task_id, uint16 events)
 		
 		return events ^ GASCAN_PARSE_PACKET_TIMEOUT_EVT;
 	}
+
+	if (events & GASCAN_UPDATE_SCAN_RSP_DATA_EVT)
+	{
+		GAP_UpdateAdvertisingData(gascan_TaskID,     
+                             FALSE,    
+                             sizeof(scanRspData),    
+                             scanRspData);
+
+		if (needUpdateParam)
+		{
+			SaveParameter();
+		}
+		
+        //enable ad
+        uint8 initial_advertising_enable = TRUE;    
+		GAPRole_SetParameter( GAPROLE_ADVERT_ENABLED, sizeof( uint8 ), &initial_advertising_enable);
+ 
+		return events ^ GASCAN_UPDATE_SCAN_RSP_DATA_EVT;
+	}
 	
 #if defined ( PLUS_BROADCASTER )
 	if (events & POWERASIST_ADV_IN_CONNECTION_EVT)
@@ -594,6 +616,11 @@ static void BleDisconnected()
 	osal_stop_timerEx(gascan_TaskID, GASCAN_CONNECTED_PEROID_EVT);
 
 	s_caliStatus = status_calibration_idle;
+
+	uint8 initial_advertising_enable = FALSE;    
+    GAPRole_SetParameter(GAPROLE_ADVERT_ENABLED, sizeof( uint8 ), &initial_advertising_enable );//�ع㲥    
+        
+    osal_start_timerEx(gascan_TaskID, GASCAN_UPDATE_SCAN_RSP_DATA_EVT, 0);   
 }
 
 
@@ -643,6 +670,8 @@ static void peripheralStateNotificationCB(gaprole_States_t newState)
 			}
 			
 			osal_start_reload_timer(gascan_TaskID, GASCAN_CONNECTED_PEROID_EVT, DETECT_INTERVAL_WHEN_CONNECTED);
+
+			needUpdateParam = false;
 		}
 		break;
 
@@ -868,16 +897,15 @@ static void ProcessStartCalibration(uint8 start)
 				
 				result = RESULT_OK;
 				reason = REASON_NONE;
-			
-				SaveParameter();
 
 				SetCalibration(g_pressureCaliItem, g_pressureCaliItemCount);
 
 				SetTemperatureCaliItem(&g_tempCaliItem);
+
+				needUpdateParam = true;
 			}
 			else
 			{
-
 				result = RESULT_FAILED;
 			
 				reason = REASON_CALIBRATION_POINT_NUM_WRONG;
@@ -967,14 +995,13 @@ static void ProcessCalibrate(uint16 temperature, uint16 kPa)
 static void ProcessSetBleName(const uint8 name[BLE_NAME_LEN])
 {
 	osal_memcpy(g_bleName, name, BLE_NAME_LEN);
-	//save
-	SaveParameter();
+	needUpdateParam = true;
 
 	//update ble name
 	SetBleName(g_bleName);
 	GAPRole_SetParameter(GAPROLE_SCAN_RSP_DATA, sizeof(scanRspData), scanRspData);	
   	GGS_SetParameter(GGS_DEVICE_NAME_ATT, GAP_DEVICE_NAME_LEN, attDeviceName);
-
+                             
 	uint8 buf[MAX_PACKET_LEN];
 
 	uint8 len = BuildSetBleNameRetPacket(buf, sizeof(buf), RESULT_OK);
@@ -993,8 +1020,7 @@ static void ProcessBleCom(const uint8 *buf, uint8 len)
 {
 	//for echo test
 	//GascanProfile_Notify(buf, len);
-	//ProcessSetBleName("hello,world");
-	
+	//ProcessSetBleName("zhuwenhui");
 #if 1
 	uint8 parsedLen;
 
@@ -1068,7 +1094,7 @@ static void ProcessBleCom(const uint8 *buf, uint8 len)
 		case TYPE_SET_BLE_NAME:
 			{
 				uint8 name[BLE_NAME_LEN];
-				if (ParseSetBleNamePacket(data, len, name))
+				if (ParseSetBleNamePacket(data, dataLen, name))
 				{
 					TRACE("parse set ble name ok:%s\r\n", name);
 
