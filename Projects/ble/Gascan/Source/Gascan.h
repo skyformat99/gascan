@@ -84,6 +84,12 @@ extern void Gascan_Init( uint8 task_id );
  */
 extern uint16 Gascan_ProcessEvent( uint8 task_id, uint16 events );
 
+extern void StartGascanTimer(uint16 event, uint32 timeout, bool repeat);
+
+extern void StopGascanTimer(uint16 event);
+
+extern void UpdateBleName(const uint8 name[BLE_NAME_LEN]);
+
 /*********************************************************************
 *********************************************************************/
 

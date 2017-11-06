@@ -78,6 +78,7 @@
 #endif
 
 /* Application */
+#include "Protocol.h"
 #include "Gascan.h"
 
 /*********************************************************************

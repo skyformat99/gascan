@@ -39,8 +39,7 @@ static uint8 BuildPacket(uint8 *buf, uint8 maxBufLen, const uint8 *data, uint8 l
 	buf[index++] = (len + 1);
 
 	uint8 sum = 0;
-	uint8 i;
-	for (i = 0; i < len; i++)
+	for (uint8 i = 0; i < len; i++)
 	{
 		buf[index++] = *data;
 
@@ -106,13 +105,14 @@ uint8 BuildTestMeasureDataPacket(uint8 *buf, uint8 maxBufLen, uint8 result, uint
 	return BuildDataPacket(buf, maxBufLen, result, reason, TYPE_TEST, dataMap, data);
 }
 
-uint8 BuildStartCalibrationRetPacket(uint8 *buf, uint8 maxBufLen, uint8 start, uint8 reault, uint8 reason)
+uint8 BuildStartCalibrationRetPacket(uint8 *buf, uint8 maxBufLen, uint8 type, uint8 start, uint8 reault, uint8 reason)
 {
 	uint8 dataBuf[MAX_PACKET_LEN];
 		
 	uint8 index = 0;
 	dataBuf[index++] = TYPE_START_CALIBRATION;
 
+	dataBuf[index++] = type;
 	dataBuf[index++] = start;
 	dataBuf[index++] = reault;
 	dataBuf[index++] = reason;
@@ -120,23 +120,37 @@ uint8 BuildStartCalibrationRetPacket(uint8 *buf, uint8 maxBufLen, uint8 start, u
 	return BuildPacket(buf, maxBufLen, dataBuf, index);
 }
 
-uint8 BuildCalibrateRetPacket(uint8 *buf, uint8 maxBufLen, uint16 temperature, uint16 kPa, uint8 reault, uint8 reason)
+uint8 BuildTemperatureCalibrateRetPacket(uint8 *buf, uint8 maxBufLen, uint16 temperature, uint8 result, uint8 reason)
+{
+	uint8 dataBuf[MAX_PACKET_LEN];
+		
+	uint8 index = 0;
+	dataBuf[index++] = TYPE_TEMP_CALIBRATE;
+
+	dataBuf[index++] = temperature >> 8;
+	dataBuf[index++] = temperature & 0xff;
+
+	dataBuf[index++] = result;
+	dataBuf[index++] = reason;
+	
+	return BuildPacket(buf, maxBufLen, dataBuf, index);
+}
+
+uint8 BuildPressureCalibrateRetPacket(uint8 *buf, uint8 maxBufLen, uint16 kPa, uint8 result, uint8 reason)
 {
 	uint8 dataBuf[MAX_PACKET_LEN];
 	
 	uint8 index = 0;
-	dataBuf[index++] = TYPE_CALIBRATE;
-
-	dataBuf[index++] = temperature >> 8;
-	dataBuf[index++] = temperature & 0xff;
+	dataBuf[index++] = TYPE_PRESSURE_CALIBRATE;
 	
 	dataBuf[index++] = kPa >> 8;
 	dataBuf[index++] = kPa & 0xff;
 
-	dataBuf[index++] = reault;
+	dataBuf[index++] = result;
 	dataBuf[index++] = reason;
 	
 	return BuildPacket(buf, maxBufLen, dataBuf, index);
+
 }
 
 uint8 BuildSetBleNameRetPacket(uint8 *buf, uint8 maxBufLen, uint8 result)
@@ -157,14 +171,12 @@ uint8 ParsePacket(const uint8 *buf, uint8 len, uint8 *parsedLen)
 	static uint16 dataLeft = 0;
 
 	static uint8 sum = 0;
-	
-	uint8 i;
 
 	uint8 count = 0;
 	
 	uint8 res = PACKET_NOT_COMPLETE;
 
-	for (i = 0; i < len; i++)
+	for (uint8 i = 0; i < len; i++)
 	{
 		uint8 dat = *buf++;
 		count++;
@@ -310,7 +322,7 @@ bool ParseGetMesureDataPacket(const uint8 * data, uint8 len, uint8 *dataMap)
 	return true;
 }
 
-bool ParseStartCalibrationPacket(const uint8 *data, uint8 len, uint8 *start)
+bool ParseStartCalibrationPacket(const uint8 *data, uint8 len, uint8 *type, uint8 *start)
 {
 	if (len != SIZE_START_CALIBRATION)
 	{
@@ -322,6 +334,13 @@ bool ParseStartCalibrationPacket(const uint8 *data, uint8 len, uint8 *start)
 	uint8 dat;
 
 	index++;
+
+	dat = data[index++];
+	if (type != NULL)
+	{
+		*type = dat;
+	}
+	
 	dat = data[index++];
 	if (start != NULL)
 	{
@@ -331,9 +350,9 @@ bool ParseStartCalibrationPacket(const uint8 *data, uint8 len, uint8 *start)
 	return true;
 }
 
-bool ParseCalibratePacket(const uint8 *data, uint8 len, uint16 *temperature, uint16 *kPa)
+bool ParseTemperatureCalibratePacket(const uint8 *data, uint8 len, uint16 *temperature)
 {
-	if (len != SIZE_CALIBRATE)
+	if (len != SIZE_TEMP_CALIBRATE)
 	{
 		return false;
 	}
@@ -350,6 +369,21 @@ bool ParseCalibratePacket(const uint8 *data, uint8 len, uint16 *temperature, uin
 	{
 		*temperature = val;
 	}
+	
+	return true;
+}
+
+bool ParsePressureCalibratePacket(const uint8 *data, uint8 len, uint16 *kPa)
+{
+	if (len != SIZE_PRESSURE_CALIBRATE)
+	{
+		return false;
+	}
+
+	uint16 val;
+	
+	uint8 index = 0;
+	index++;
 
 	val = data[index++];
 	val <<= 8;
@@ -417,8 +451,7 @@ bool ParseSetBleNamePacket(const uint8 *data, uint8 len, uint8 name[BLE_NAME_LEN
 		return false;
 	}
 
-	uint8 i;
-	for (i = 0; i < BLE_NAME_LEN; i++)
+	for (uint8 i = 0; i < BLE_NAME_LEN; i++)
 	{
 		name[i] = data[1 + i];
 	}

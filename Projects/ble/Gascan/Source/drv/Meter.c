@@ -47,7 +47,16 @@ uint16 GetTemperature()
 	//calibrated formula
 	//val = (res - s_temperatureCaliItem->adc) / 4.5 + 100 + s_temperatureCaliItem.temperature - 100;
 	res *= 100ul;
-	res += (100 * 10 + s_temperatureCaliItem->temperature) * 45ul;
+	if (s_temperatureCaliItem->temperature & (1u << 15))
+	{
+		//minus temperature
+		res += (100 * 10 - s_temperatureCaliItem->temperature & ~(1u << 15)) * 45ul;
+	}
+	else
+	{
+		res += (100 * 10 + s_temperatureCaliItem->temperature) * 45ul;
+	}
+	
 	res -= s_temperatureCaliItem->adc * 100ul;
 	res /= 45ul;
 	

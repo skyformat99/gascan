@@ -2,7 +2,7 @@
 #ifndef _PARAMETER_H_
 #define _PARAMETER_H_
 
-#define MAX_BLE_NAME_LEN     20
+#include "Protocol.h"
 
 #define FIRMWARE_VER_LEN  8
 #define FIRMWARE_VER      "0.00.001"
@@ -32,7 +32,7 @@ typedef struct
 
 	struct TemperatureCalirationItem tempCaliItem;
 
-	uint8 bleName[MAX_BLE_NAME_LEN];
+	uint8 bleName[BLE_NAME_LEN];
 	
 } Parameter;
 

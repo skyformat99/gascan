@@ -49,7 +49,7 @@ static const Parameter s_defaultParameter =
 	{
 		.temperature = 250,
 
-		.adc = 1480
+		.adc = 0 /*1480*/
 	},
 
 	.bleName = 
@@ -98,8 +98,7 @@ bool LoadParameter()
 	//sum
 	uint8 sum = 0x00;
 	uint8 *p = (uint8 *)&g_storeVector.parameter;
-	int i;
-	for (i = 0; i < size; i++)
+	for (int i = 0; i < size; i++)
 	{
 		sum ^= *p++;
 	}
@@ -133,9 +132,8 @@ bool SaveParameter()
 	g_storeVector.size = sizeof(g_storeVector.parameter);
 
 	uint8 *p = (uint8 *)&g_storeVector.parameter;
-	int i;
 	uint8 sum = 0x00;
-	for (i = 0; i < sizeof(g_storeVector.parameter); i++)
+	for (int i = 0; i < sizeof(g_storeVector.parameter); i++)
 	{	
 		sum ^= *p++;
 	}

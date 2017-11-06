@@ -80,32 +80,15 @@
 #include "Indicator.h"
 
 #include "Gascan.h"
-#include "Protocol.h"
+
 #include "Packet.h"
+
+#include "BleComm.h"
 
 #include "Npi.h"
 
-typedef enum
-{
-	status_calibration_idle = 0,
-
-	status_calibration_ready,
-
-	status_calibrating,
-	
-} CalibrationStatus;
-
-static CalibrationStatus s_caliStatus = status_calibration_idle;
-
-static struct PressureCalibrationItem s_caliItem[MAX_CALIBRATION_COUNT];
-static uint8 s_caliItemCount = 0;
-
-static struct TemperatureCalirationItem s_temperatureCaliItem;
-
 #define POWER_ON_DELAY_TIME               2000ul
 #define DETECT_INTERVAL_WHEN_CONNECTED    5000ul
-
-#define PARSE_PACKET_TIMEOUT              5000ul
 /*********************************************************************
  * MACROS
  */
@@ -232,7 +215,7 @@ static gaprole_States_t gapProfileState = GAPROLE_INIT;
 static uint8 scanRspData[] =
 {
 	// complete name
-	MAX_BLE_NAME_LEN,   // length of this data
+	BLE_NAME_LEN,   // length of this data
 	GAP_ADTYPE_LOCAL_NAME_COMPLETE,
 
 	'\0',
@@ -292,9 +275,6 @@ static uint8 advertData[] =
 // GAP GATT Attributes
 static uint8 attDeviceName[GAP_DEVICE_NAME_LEN];
 
-// whether needs update parameter
-static bool needUpdateParam = false;
-
 /*********************************************************************
  * LOCAL FUNCTIONS
  */
@@ -324,11 +304,9 @@ static gascanProfileCBs_t gascanProfileCBs =
 /*********************************************************************
  * PUBLIC FUNCTIONS
  */
-
-static void SetBleName(const uint8 *name)
+static void SetBleName(const uint8 name[BLE_NAME_LEN])
 {
-	int i;
-	for (i = 0; i < MAX_BLE_NAME_LEN; i++)
+	for (int i = 0; i < BLE_NAME_LEN; i++)
 	{	
 		scanRspData[2 + i] = name[i];
 
@@ -375,8 +353,6 @@ void Gascan_Init( uint8 task_id )
 
 	SetCalibration(g_pressureCaliItem, g_pressureCaliItemCount);
 	SetTemperatureCaliItem(&g_tempCaliItem);
-	
-	s_caliStatus = status_calibration_idle;
 	
   	hciStatus_t hci_status = HCI_EXT_SetTxPowerCmd(HCI_EXT_TX_POWER_4_DBM);
 
@@ -548,20 +524,21 @@ uint16 Gascan_ProcessEvent(uint8 task_id, uint16 events)
 		
 		return events ^ GASCAN_PARSE_PACKET_TIMEOUT_EVT;
 	}
-
+	
 	if (events & GASCAN_UPDATE_SCAN_RSP_DATA_EVT)
 	{
+		//update scan response data
 		GAP_UpdateAdvertisingData(gascan_TaskID,     
                              FALSE,    
                              sizeof(scanRspData),    
                              scanRspData);
 
-		if (needUpdateParam)
+		if (GetNeedUpdateParam())
 		{
 			SaveParameter();
 		}
 		
-        //enable ad
+        //re-enable ad
         uint8 initial_advertising_enable = TRUE;    
 		GAPRole_SetParameter( GAPROLE_ADVERT_ENABLED, sizeof( uint8 ), &initial_advertising_enable);
  
@@ -581,6 +558,31 @@ uint16 Gascan_ProcessEvent(uint8 task_id, uint16 events)
 
   // Discard unknown events
   return 0;
+}
+
+void StartGascanTimer(uint16 event, uint32 timeout, bool repeat)
+{
+	if (repeat)
+	{
+		osal_start_reload_timer(gascan_TaskID, event, timeout);
+	}
+	else
+	{
+		osal_start_timerEx(gascan_TaskID, event, timeout);
+	}
+}
+
+void StopGascanTimer(uint16 event)
+{
+	osal_stop_timerEx(gascan_TaskID, event);
+}
+
+void UpdateBleName(const uint8 name[BLE_NAME_LEN])
+{
+	SetBleName(name);
+
+	GAPRole_SetParameter(GAPROLE_SCAN_RSP_DATA, sizeof(scanRspData), scanRspData);	
+  	GGS_SetParameter(GGS_DEVICE_NAME_ATT, GAP_DEVICE_NAME_LEN, attDeviceName);
 }
 
 /*********************************************************************
@@ -608,21 +610,6 @@ static void Gascan_ProcessOSALMsg( osal_event_hdr_t *pMsg )
 		break;
 	}
 }
-
-static void BleDisconnected()
-{
-	StopMeasure();
-				
-	osal_stop_timerEx(gascan_TaskID, GASCAN_CONNECTED_PEROID_EVT);
-
-	s_caliStatus = status_calibration_idle;
-
-	uint8 initial_advertising_enable = FALSE;    
-    GAPRole_SetParameter(GAPROLE_ADVERT_ENABLED, sizeof( uint8 ), &initial_advertising_enable );//�ع㲥    
-        
-    osal_start_timerEx(gascan_TaskID, GASCAN_UPDATE_SCAN_RSP_DATA_EVT, 0);   
-}
-
 
 /*********************************************************************
  * @fn      peripheralStateNotificationCB
@@ -671,7 +658,7 @@ static void peripheralStateNotificationCB(gaprole_States_t newState)
 			
 			osal_start_reload_timer(gascan_TaskID, GASCAN_CONNECTED_PEROID_EVT, DETECT_INTERVAL_WHEN_CONNECTED);
 
-			needUpdateParam = false;
+			SetNeedUpdateParam(false);
 		}
 		break;
 
@@ -719,428 +706,6 @@ static void peripheralStateNotificationCB(gaprole_States_t newState)
 
 	VOID gapProfileState;     // added to prevent compiler warning with
 	            				// "CC2540 Slave" configurations
-}
-
-static void SendBleData(uint8 *buf, uint8 len)
-{
-  	uint8 i;
-
-#if 0
-#ifdef DEBUG_PRINT
-	TRACE("send ble data %d bytes:", len);
-	for (i = 0; i < 1; i++)
-	{
-		TRACE("0x%02X ", buf[i]);
-	}
-	TRACE("\r\n");
-#endif
-#endif
-
-	uint8 segCnt = (len + 20 - 1) / 20;
-
-	uint8 left = segCnt * 20 - len;
-
-	for (i = 0; i < left; i++)
-	{
-		buf[len + i] = 0x00;
-	}
-	
-	for (i = 0; i < segCnt; i++)
-	{	
-		GascanProfile_Notify(buf + i * 20, 20);
-	}
-}
-
-//data map
-static uint8 s_dataMap = 0x00;
-
-static void MeasureCallback(uint16 kPa)
-{
-	uint8 buf[MAX_PACKET_LEN];
-	uint16 data[3];
-	uint8 index = 0;
-	
-	if (s_dataMap & DATA_TEMPERATURE_MASK)
-	{
-		uint16 temp = GetTemperature();
-		TRACE("%dC\r\n", temp);
-		data[index++] = temp;
-	}
-
-	if (s_dataMap & DATA_PRESSURE_MASK)
-	{
-		TRACE("%dkPa\r\n", kPa);
-		data[index++] = kPa;
-	}
-
-	if (s_dataMap & DATA_VOLTAGE_MASK)
-	{
-		uint16 vol = GetBatteryVoltage();
-		TRACE("%d.%02dV\r\n", vol / 100, vol % 100);
-		data[index++] = vol;
-	}
-	
-	uint8 len = BuildMeasureDataPacket(buf, sizeof(buf), RESULT_OK, REASON_NONE, s_dataMap, data);
-	s_dataMap = 0x00;
-	
-	SendBleData(buf, len);
-}
-
-static void ProcessMeasurePacket(uint8 dataMap)
-{
-	uint8 result;
-	uint8 reason;
-	if (g_pressureCaliItemCount == 0)
-	{
-		result = RESULT_FAILED;
-
-		reason = REASON_NOT_CALIBRATED;
-	}
-	else
-	{
-		if (s_caliStatus == status_calibration_idle)
-		{
-			result = RESULT_OK;
-
-			reason = REASON_NONE;
-
-			s_dataMap = dataMap;
-			
-			TRACE("start measure\r\n");
-			StartMeasure(MeasureCallback);
-		}
-		else
-		{
-			result = RESULT_FAILED;
-
-			reason = REASON_CALIBRATE_STARTED;
-		}
-	}
-
-	if (result != RESULT_OK)
-	{
-		uint8 buf[MAX_PACKET_LEN];
-		
-		TRACE("result:%d,reason:%d\r\n", result, reason);
-			
-		uint8 len = BuildMeasureDataPacket(buf, sizeof(buf), result, reason, dataMap, NULL);
-		SendBleData(buf, len);
-	}
-}
-
-#define INVALID_TEMPERATURE     0xffff
-
-static uint16 s_temperature = INVALID_TEMPERATURE;
-
-static void ProcessStartCalibration(uint8 start)
-{
-	uint8 result;
-
-	uint8 reason;
-	
-	if (start == CALIBRATION_START)
-	{
-		if (s_caliStatus == status_calibration_ready)
-		{
-			result = RESULT_FAILED;
-
-			reason = REASON_CALIBRATE_STARTED;
-		}
-		else if (s_caliStatus == status_calibrating)
-		{
-			result = RESULT_FAILED;
-
-			reason = REASON_BEING_CALIBRATED;
-		}
-		else
-		{
-			result = RESULT_OK;
-			
-			reason = REASON_NONE;
-
-			s_caliItemCount = 0;
-			
-			s_caliStatus = status_calibration_ready;
-		}
-	}
-	else
-	{
-		if (s_caliStatus == status_calibrating)
-		{
-			result = RESULT_FAILED;
-
-			reason = REASON_BEING_CALIBRATED;
-		}
-		else if (s_caliStatus == status_calibration_idle)
-		{
-			result = RESULT_FAILED;
-
-			reason = REASON_CALIBRATE_NOT_STARTED;
-		}
-		else
-		{
-			if (s_caliItemCount == MAX_CALIBRATION_COUNT)
-			{
-				//save
-				uint8 i;
-				for (i = 0; i < MAX_CALIBRATION_COUNT; i++)
-				{	
-					g_pressureCaliItem[i] = s_caliItem[i];
-				}
-				g_pressureCaliItemCount = s_caliItemCount;
-
-				g_tempCaliItem = s_temperatureCaliItem;
-				
-				s_caliItemCount = 0;
-
-				s_temperature = INVALID_TEMPERATURE;
-				
-				result = RESULT_OK;
-				reason = REASON_NONE;
-
-				SetCalibration(g_pressureCaliItem, g_pressureCaliItemCount);
-
-				SetTemperatureCaliItem(&g_tempCaliItem);
-
-				needUpdateParam = true;
-			}
-			else
-			{
-				result = RESULT_FAILED;
-			
-				reason = REASON_CALIBRATION_POINT_NUM_WRONG;
-			}
-
-			s_caliStatus = status_calibration_idle;
-		}
-	}
-
-	uint8 buf[MAX_PACKET_LEN];
-	
-	uint8 len = BuildStartCalibrationRetPacket(buf, sizeof(buf), start, result, reason);
-	SendBleData(buf, len);
-}
-
-static void CalibrateCallback(uint16 kPa, uint32 adc)
-{
-	//get temperature
-	if (s_caliItemCount == 0)
-	{
-		uint16 tempAdc = GetTemperatureAdc();
-
-		s_temperatureCaliItem.adc = tempAdc;
-		s_temperatureCaliItem.temperature = s_temperature;
-
-		TRACE("temperature cali:%dD,adc:%d\r\n", s_temperature, tempAdc);
-	}
-	
-	s_caliItem[s_caliItemCount].kPa = kPa;
-	s_caliItem[s_caliItemCount].adc = adc;
-	s_caliItemCount++;
-
-	TRACE("pressure cali,kPa:%d,adc:0x%08lX\r\n", kPa, adc);
-	
-	s_caliStatus = status_calibration_ready;
-	
-	uint8 buf[MAX_PACKET_LEN];
-	
-	uint8 len = BuildCalibrateRetPacket(buf, sizeof(buf), s_temperature, kPa, RESULT_OK, REASON_NONE);
-	SendBleData(buf, len);
-}
-
-static void ProcessCalibrate(uint16 temperature, uint16 kPa)
-{
-	uint8 result;
-
-	uint8 reason;
-	
-	TRACE("calibration:%dkPa\r\n", kPa);
-	
-	if (s_caliStatus == status_calibration_idle)
-	{
-		result = RESULT_FAILED;
-		
-		reason = REASON_CALIBRATE_NOT_STARTED;
-	}
-	else if (s_caliStatus == status_calibrating)
-	{
-		result = RESULT_FAILED;
-
-		reason = REASON_BEING_CALIBRATED;
-	}
-	else
-	{
-		result = RESULT_OK;
-			
-		reason = REASON_NONE;
-
-		s_caliStatus = status_calibrating;
-
-		s_temperature = temperature;
-		
-		StartCalibrate(CalibrateCallback, kPa);
-	}
-	
-	if (result != RESULT_OK)
-	{
-		uint8 buf[MAX_PACKET_LEN];
-
-		TRACE("result:%d,reason:%d\r\n", result, reason);
-		
-		uint8 len = BuildCalibrateRetPacket(buf, sizeof(buf), 0, kPa, result, reason);
-		SendBleData(buf, len);
-	}
-}
-
-static void ProcessSetBleName(const uint8 name[BLE_NAME_LEN])
-{
-	osal_memcpy(g_bleName, name, BLE_NAME_LEN);
-	needUpdateParam = true;
-
-	//update ble name
-	SetBleName(g_bleName);
-	GAPRole_SetParameter(GAPROLE_SCAN_RSP_DATA, sizeof(scanRspData), scanRspData);	
-  	GGS_SetParameter(GGS_DEVICE_NAME_ATT, GAP_DEVICE_NAME_LEN, attDeviceName);
-                             
-	uint8 buf[MAX_PACKET_LEN];
-
-	uint8 len = BuildSetBleNameRetPacket(buf, sizeof(buf), RESULT_OK);
-	SendBleData(buf, len);
-}
-
-static void ProcessTestPacket(uint8 dataMap, const uint16 *testData)
-{
-	uint8 buf[MAX_PACKET_LEN];
-
-	uint8 len = BuildTestMeasureDataPacket(buf, sizeof(buf), RESULT_OK, REASON_NONE, dataMap, testData);
-	SendBleData(buf, len);
-}
-
-static void ProcessBleCom(const uint8 *buf, uint8 len)
-{
-	//for echo test
-	//GascanProfile_Notify(buf, len);
-	//ProcessSetBleName("zhuwenhui");
-#if 1
-	uint8 parsedLen;
-
-	uint8 res = ParsePacket(buf, len, &parsedLen);
-	if (res == PACKET_OK)
-	{
-		osal_stop_timerEx(gascan_TaskID, GASCAN_PARSE_PACKET_TIMEOUT_EVT);
-		
-		uint8 type = GetPacketType();
-		uint8 dataLen = GetPacketDataLen();
-		const uint8 *data = GetPacketData();
-
-		TRACE("type:%d,dataLen:%d\r\n", type, dataLen);
-		
-		switch (type)
-		{
-		case TYPE_MEASURE:
-			{
-				uint8 dataMap;
-				if (ParseGetMesureDataPacket(data, dataLen, &dataMap))
-				{
-					TRACE("parse get measure data ok, map:0x%02X\r\n", dataMap);
-
-					ProcessMeasurePacket(dataMap);
-				}
-				else
-				{
-					
-					TRACE("parse get measure data failed\r\n");
-				}
-			}
-
-			break;
-
-		case TYPE_START_CALIBRATION:
-			{
-				uint8 start;
-				if (ParseStartCalibrationPacket(data, dataLen, &start))
-				{
-					TRACE("parse start calibration ok, start:0x%02X\r\n", start);
-
-					ProcessStartCalibration(start);
-				}
-				else
-				{
-					TRACE("parse start calibration failed\r\n");
-				}
-			}
-			
-			break;
-
-		case TYPE_CALIBRATE:
-			{
-				uint16 temperature;
-				
-				uint16 kPa;
-				if (ParseCalibratePacket(data, dataLen, &temperature, &kPa))
-				{
-					TRACE("parse calibrate ok,%dkPa\r\n", kPa);
-
-					ProcessCalibrate(temperature, kPa);
-				}
-				else
-				{
-					TRACE("parse calibrate failed\r\n");
-				}
-			}
-			
-			break;
-
-		case TYPE_SET_BLE_NAME:
-			{
-				uint8 name[BLE_NAME_LEN];
-				if (ParseSetBleNamePacket(data, dataLen, name))
-				{
-					TRACE("parse set ble name ok:%s\r\n", name);
-
-					ProcessSetBleName(name);
-				}
-				else
-				{
-					TRACE("parse set ble name failed\r\n");
-				}
-			}
-			
-			break;
-			
-		case TYPE_TEST:
-			{
-				uint8 dataMap;
-				uint16 testData[3];
-				if (ParseTestPacket(data, dataLen, &dataMap, testData))
-				{
-					TRACE("parse test data ok, map:0x%02X\r\n", dataMap);
-					
-					ProcessTestPacket(dataMap, testData);
-				}
-				else
-				{
-					
-					TRACE("parse test data failed\r\n");
-				}
-			}
-
-			break;
-		}
-	}
-	else if (res == PACKET_INVALID)
-	{
-		TRACE("invalid packet\r\n");
-		osal_stop_timerEx(gascan_TaskID, GASCAN_PARSE_PACKET_TIMEOUT_EVT);
-	}
-	else
-	{
-		//incomplete
-		TRACE("incomplete packet\r\n");
-		osal_start_timerEx(gascan_TaskID, GASCAN_PARSE_PACKET_TIMEOUT_EVT, PARSE_PACKET_TIMEOUT);
-	}
-	
-#endif
 }
 
 static void GascanProfileChangeCB(uint8 paramID, uint8 len)

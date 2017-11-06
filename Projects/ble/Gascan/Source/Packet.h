@@ -12,9 +12,11 @@ extern uint8 BuildMeasureDataPacket(uint8 *buf, uint8 maxBufLen, uint8 result, u
 extern uint8 BuildTestMeasureDataPacket(uint8 *buf, uint8 maxBufLen, uint8 result, uint8 reason, uint8 dataMap,
 												const uint16 *data);
 												
-extern uint8 BuildStartCalibrationRetPacket(uint8 *buf, uint8 maxBufLen, uint8 start, uint8 result, uint8 reason);
+extern uint8 BuildStartCalibrationRetPacket(uint8 *buf, uint8 maxBufLen, uint8 type, uint8 start, uint8 result, uint8 reason);
 
-extern uint8 BuildCalibrateRetPacket(uint8 *buf, uint8 maxBufLen, uint16 temperature, uint16 kPa, uint8 result, uint8 reason);
+extern uint8 BuildTemperatureCalibrateRetPacket(uint8 *buf, uint8 maxBufLen, uint16 temperature, uint8 result, uint8 reason);
+
+extern uint8 BuildPressureCalibrateRetPacket(uint8 *buf, uint8 maxBufLen, uint16 kPa, uint8 result, uint8 reason);
 
 extern uint8 BuildSetBleNameRetPacket(uint8 *buf, uint8 maxBufLen, uint8 result);
 
@@ -29,9 +31,11 @@ extern uint8 GetPacketDataLen();
 
 extern bool ParseGetMesureDataPacket(const uint8 * data, uint8 len, uint8 *dataMap);
 
-extern bool ParseStartCalibrationPacket(const uint8 *data, uint8 len, uint8 *start);
+extern bool ParseStartCalibrationPacket(const uint8 *data, uint8 len, uint8 *type, uint8 *start);
 
-extern bool ParseCalibratePacket(const uint8 *data, uint8 len, uint16 *temperature, uint16 *kPa);
+extern bool ParseTemperatureCalibratePacket(const uint8 *data, uint8 len, uint16 *temperature);
+
+extern bool ParsePressureCalibratePacket(const uint8 *data, uint8 len, uint16 *kPa);
 
 extern bool ParseSetBleNamePacket(const uint8 *data, uint8 len, uint8 name[BLE_NAME_LEN]);
 

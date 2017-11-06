@@ -5320,6 +5320,12 @@
   <group>
     <name>APP</name>
     <file>
+      <name>$PROJ_DIR$\..\Source\BleComm.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\Source\BleComm.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\Source\Gascan.c</name>
     </file>
     <file>
@@ -5389,7 +5395,7 @@
       <name>$PROJ_DIR$\..\Source\drv\Meter.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\Source\drv\PinDefine.h</name>
+      <name>$PROJ_DIR$\..\Source\drv\pindefine.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\Source\drv\Pressure.c</name>

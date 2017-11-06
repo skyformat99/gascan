@@ -12,7 +12,7 @@
           
           
           
-        <Column0>113</Column0><Column1>39</Column1><Column2>27</Column2><Column3>0</Column3></ColumnWidths>
+        <Column0>122</Column0><Column1>39</Column1><Column2>27</Column2><Column3>0</Column3></ColumnWidths>
       </Workspace>
       <Build>
         
@@ -52,14 +52,14 @@
       
       
       
-    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\drv\HX711.c</Filename><XPos>0</XPos><YPos>222</YPos><SelStart>4124</SelStart><SelEnd>4124</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Gascan.c</Filename><XPos>0</XPos><YPos>636</YPos><SelStart>19143</SelStart><SelEnd>19143</SelEnd></Tab><ActiveTab>1</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Parameter.c</Filename><XPos>0</XPos><YPos>14</YPos><SelStart>374</SelStart><SelEnd>374</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\drv\HX711.c</Filename><XPos>0</XPos><YPos>222</YPos><SelStart>4124</SelStart><SelEnd>4124</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Gascan.c</Filename><XPos>0</XPos><YPos>510</YPos><SelStart>16415</SelStart><SelEnd>16415</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Parameter.c</Filename><XPos>0</XPos><YPos>14</YPos><SelStart>374</SelStart><SelEnd>374</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Parameter.h</Filename><XPos>0</XPos><YPos>24</YPos><SelStart>602</SelStart><SelEnd>602</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Packet.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>170</SelStart><SelEnd>170</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\BleComm.c</Filename><XPos>0</XPos><YPos>55</YPos><SelStart>1113</SelStart><SelEnd>1113</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Gascan.h</Filename><XPos>0</XPos><YPos>80</YPos><SelStart>3612</SelStart><SelEnd>3612</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\drv\Meter.c</Filename><XPos>0</XPos><YPos>39</YPos><SelStart>1332</SelStart><SelEnd>1332</SelEnd></Tab><ActiveTab>7</ActiveTab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
     <Positions>
       
       
       
       
       
-    <Top><Row0><Sizes><Toolbar-00c9dbf8><key>iaridepm.enu1</key></Toolbar-00c9dbf8></Sizes></Row0></Top><Left><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>430</Bottom><Right>216</Right><x>-2</x><y>-2</y><xscreen>212</xscreen><yscreen>183</yscreen><sizeHorzCX>229189</sizeHorzCX><sizeHorzCY>236434</sizeHorzCY><sizeVertCX>235676</sizeVertCX><sizeVertCY>558140</sizeVertCY></Rect></Wnd2></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd3><Rect><Top>-2</Top><Left>-2</Left><Bottom>299</Bottom><Right>927</Right><x>-2</x><y>-2</y><xscreen>929</xscreen><yscreen>301</yscreen><sizeHorzCX>1004324</sizeHorzCX><sizeHorzCY>388889</sizeHorzCY><sizeVertCX>229189</sizeVertCX><sizeVertCY>236434</sizeVertCY></Rect></Wnd3></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+    <Top><Row0><Sizes><Toolbar-00c9dbf8><key>iaridepm.enu1</key></Toolbar-00c9dbf8></Sizes></Row0></Top><Left><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>551</Bottom><Right>208</Right><x>-2</x><y>-2</y><xscreen>212</xscreen><yscreen>183</yscreen><sizeHorzCX>207640</sizeHorzCX><sizeHorzCY>235521</sizeHorzCY><sizeVertCX>205681</sizeVertCX><sizeVertCY>711712</sizeVertCY></Rect></Wnd2></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd3><Rect><Top>-2</Top><Left>-2</Left><Bottom>181</Bottom><Right>1023</Right><x>-2</x><y>-2</y><xscreen>1025</xscreen><yscreen>183</yscreen><sizeHorzCX>1003918</sizeHorzCX><sizeHorzCY>235521</sizeHorzCY><sizeVertCX>207640</sizeVertCX><sizeVertCY>235521</sizeVertCY></Rect></Wnd3></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
   </Desktop>
 </Workspace>
 
