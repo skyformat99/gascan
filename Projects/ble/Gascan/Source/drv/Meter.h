@@ -3,7 +3,7 @@
 #define _METER_H_
 
 //mV
-#define  LOW_POWER_THRESHOLD       28
+#define  LOW_POWER_THRESHOLD       280ul
 
 struct TemperatureCalirationItem;
 
