@@ -65,11 +65,11 @@ void BleDisconnected()
 	StopGascanTimer(GASCAN_CONNECTED_PEROID_EVT);
 
 	s_caliStatus = status_calibration_idle;
-
+	
 	//disable ad first
-	uint8 initial_advertising_enable = FALSE;    
-    GAPRole_SetParameter(GAPROLE_ADVERT_ENABLED, sizeof( uint8 ), &initial_advertising_enable );//关广播    
-        
+	//uint8 initial_advertising_enable = FALSE;    
+   	//GAPRole_SetParameter(GAPROLE_ADVERT_ENABLED, sizeof( uint8 ), &initial_advertising_enable );//关广播    
+
     StartGascanTimer(GASCAN_UPDATE_SCAN_RSP_DATA_EVT, 0, false);   
 }
 
@@ -477,7 +477,7 @@ static void ProcessPressureCalibrate(uint16 kPa)
 	else
 	{
 		result = RESULT_OK;
-			
+
 		reason = REASON_NONE;
 
 		s_caliStatus = status_pressure_calibrating;

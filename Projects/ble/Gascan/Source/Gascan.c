@@ -134,9 +134,11 @@
 #define DEFAULT_DISCOVERABLE_MODE             GAP_ADTYPE_FLAGS_GENERAL
 
 // Minimum connection interval (units of 1.25ms, 80=100ms) if aut omatic parameter update request is enabled
-#define DEFAULT_DESIRED_MIN_CONN_INTERVAL     24
+//#define DEFAULT_DESIRED_MIN_CONN_INTERVAL     24
+#define DEFAULT_DESIRED_MIN_CONN_INTERVAL     80
 
 // Maximum connection interval (units of 1.25ms, 800=1000ms) if automatic parameter update request is enabled
+//#define DEFAULT_DESIRED_MAX_CONN_INTERVAL     80
 #define DEFAULT_DESIRED_MAX_CONN_INTERVAL     80
 
 // Slave latency to use if automatic parameter update request is enabled
@@ -539,8 +541,8 @@ uint16 Gascan_ProcessEvent(uint8 task_id, uint16 events)
 		}
 		
         //re-enable ad
-        uint8 initial_advertising_enable = TRUE;    
-		GAPRole_SetParameter( GAPROLE_ADVERT_ENABLED, sizeof( uint8 ), &initial_advertising_enable);
+        //uint8 initial_advertising_enable = TRUE;    
+		//GAPRole_SetParameter( GAPROLE_ADVERT_ENABLED, sizeof( uint8 ), &initial_advertising_enable);
  
 		return events ^ GASCAN_UPDATE_SCAN_RSP_DATA_EVT;
 	}
