@@ -150,7 +150,6 @@ uint8 BuildPressureCalibrateRetPacket(uint8 *buf, uint8 maxBufLen, uint16 kPa, u
 	dataBuf[index++] = reason;
 	
 	return BuildPacket(buf, maxBufLen, dataBuf, index);
-
 }
 
 uint8 BuildSetBleNameRetPacket(uint8 *buf, uint8 maxBufLen, uint8 result)

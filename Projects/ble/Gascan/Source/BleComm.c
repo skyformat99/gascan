@@ -436,10 +436,34 @@ static void ProcessTemperatureCalibrate(uint16 temperature)
 			
 		reason = REASON_NONE;
 
+		//filter
 		uint16 tempAdc = GetTemperatureAdc();
+		uint16 maxAdc = tempAdc;
+		uint16 minAdc = tempAdc;
+		uint32 sum = tempAdc;
+		for (int i = 1; i < 6; i++)
+		{
+			tempAdc = GetTemperatureAdc();
+			if (maxAdc < tempAdc)
+			{
+				maxAdc = tempAdc;
+			}
 
-		s_temperatureCaliItem.adc = tempAdc;
+			if (minAdc > tempAdc)
+			{
+				minAdc = tempAdc;
+			}
+
+			sum += tempAdc;
+		}
+
+		sum -= minAdc + maxAdc;
+		sum /= 4;
+		
+		s_temperatureCaliItem.adc = (uint16)sum;
 		s_temperatureCaliItem.temperature = temperature;
+
+		TRACE("temp adc:%d\r\n", s_temperatureCaliItem.adc);
 	}
 	
 	uint8 buf[MAX_PACKET_LEN];

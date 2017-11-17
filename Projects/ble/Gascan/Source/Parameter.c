@@ -144,51 +144,9 @@ bool SaveParameter()
 	{
 		return false;
 	}
-
-	TRACE("save parameter OK\r\n");
-	
-	return true;
-
-	/*
-	//header
-	dat = HEADER;
-	if (!WriteEEPROM(addr, dat))
-	{
-		return false;
-	}
-
-	//size
-	addr += sizeof(dat);
-	uint16 size = sizeof(g_storeVector.parameter);
-	if (!WriteEEPROMData(addr, (uint8 *)&size, sizeof(size)))
-	{
-		ret = false;
-	}
-
-	//parameter
-	addr += sizeof(size);
-	if (!WriteEEPROMData(addr, (uint8 *)&g_storeVector.parameter, sizeof(g_storeVector.parameter)))
-	{
-		return false;
-	}
-	
-	uint8 *p = (uint8 *)&g_storeVector.parameter;
-	int i;
-	uint8 sum = 0x00;
-	for (i = 0; i < size; i++)
-	{	
-		sum ^= *p++;
-	}
-
-	addr += size;
-	if (!WriteEEPROM(addr, sum))
-	{
-		return false;
-	}
 	
 	TRACE("save parameter OK\r\n");
 	
 	return true;
-	*/
 }
 

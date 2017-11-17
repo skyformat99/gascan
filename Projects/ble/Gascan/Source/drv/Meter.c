@@ -10,7 +10,7 @@
 #include "npi.h"
 
 //125mV
-#define REF_VOLTAGE      125ul
+#define REF_VOLTAGE      124ul
 
 static const struct TemperatureCalirationItem *s_temperatureCaliItem = NULL;
 
@@ -25,6 +25,13 @@ uint16 GetBatteryVoltage()
 	//TRACE("bat voltage:%d.%02dV\r\n", res / 100, res % 100);
 	
 	return res;
+
+	/*
+	uint32 adc = HalAdcRead(HAL_ADC_CHN_VDD3, HAL_ADC_RESOLUTION_12);
+	uint16 res = adc * REF_VOLTAGE * 3 / 2048;
+
+	return res;*/
+	
 }
 
 void SetTemperatureCaliItem(const struct TemperatureCalirationItem *caliItem)
@@ -42,8 +49,8 @@ uint16 GetTemperature()
 	//original formula
 	//val = (x - 1480) / 4.5 + 125 - 100
 	//res *= 100;
-	//res = (res - 91750) / 45;
-	
+	//res = (res - 136750) / 45;
+
 	//calibrated formula
 	//val = (res - s_temperatureCaliItem->adc) / 4.5 + 100 + s_temperatureCaliItem.temperature - 100;
 	res *= 100ul;

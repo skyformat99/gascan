@@ -126,7 +126,9 @@
 
 //for andoid & ios
 // What is the advertising interval when device is discoverable (units of 625us, 160=100ms)
-#define DEFAULT_ADVERTISING_INTERVAL         3200
+//#define DEFAULT_ADVERTISING_INTERVAL         3200
+#define DEFAULT_ADVERTISING_INTERVAL         1600
+
 
 // Limited discoverable mode advertises for 30.72s, and then stops
 // General discoverable mode advertises indefinitely
@@ -134,12 +136,12 @@
 #define DEFAULT_DISCOVERABLE_MODE             GAP_ADTYPE_FLAGS_GENERAL
 
 // Minimum connection interval (units of 1.25ms, 80=100ms) if aut omatic parameter update request is enabled
-//#define DEFAULT_DESIRED_MIN_CONN_INTERVAL     24
-#define DEFAULT_DESIRED_MIN_CONN_INTERVAL     80
+#define DEFAULT_DESIRED_MIN_CONN_INTERVAL     24
+//#define DEFAULT_DESIRED_MIN_CONN_INTERVAL     8
 
 // Maximum connection interval (units of 1.25ms, 800=1000ms) if automatic parameter update request is enabled
-//#define DEFAULT_DESIRED_MAX_CONN_INTERVAL     80
-#define DEFAULT_DESIRED_MAX_CONN_INTERVAL     80
+#define DEFAULT_DESIRED_MAX_CONN_INTERVAL     40
+//#define DEFAULT_DESIRED_MAX_CONN_INTERVAL     8
 
 // Slave latency to use if automatic parameter update request is enabled
 #define DEFAULT_DESIRED_SLAVE_LATENCY         0
@@ -343,7 +345,7 @@ void Gascan_Init( uint8 task_id )
 	gascan_TaskID = task_id;
 
   	RegisterForKeys(gascan_TaskID);
-
+	
 	if (!LoadParameter())
 	{
 		LoadDefaultParameter();
@@ -352,10 +354,11 @@ void Gascan_Init( uint8 task_id )
 	}
 	
 	SetBleName(g_bleName);
-
+	
 	SetCalibration(g_pressureCaliItem, g_pressureCaliItemCount);
 	SetTemperatureCaliItem(&g_tempCaliItem);
-	
+	TRACE("temp:%d,cali adc:%d\r\n", g_tempCaliItem.temperature, g_tempCaliItem.adc);
+		
   	hciStatus_t hci_status = HCI_EXT_SetTxPowerCmd(HCI_EXT_TX_POWER_4_DBM);
 
   	HCI_EXT_HaltDuringRfCmd(HCI_EXT_HALT_DURING_RF_DISABLE);

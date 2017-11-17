@@ -121,6 +121,11 @@ void HalDriverInit (void)
 #if (defined HAL_TIMER) && (HAL_TIMER == TRUE)
 #endif
 
+	/* LED */
+#if (defined HAL_LED) && (HAL_LED == TRUE)
+	HalLedInit();
+#endif
+
   /* ADC */
 #if (defined HAL_ADC) && (HAL_ADC == TRUE)
   HalAdcInit();
@@ -140,11 +145,6 @@ void HalDriverInit (void)
   /* LCD */
 #if (defined HAL_LCD) && (HAL_LCD == TRUE)
   HalLcdInit();
-#endif
-
-  /* LED */
-#if (defined HAL_LED) && (HAL_LED == TRUE)
-  HalLedInit();
 #endif
 
   /* UART */

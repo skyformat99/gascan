@@ -98,10 +98,10 @@ void HalAdcInit (void)
 {
 #if (HAL_ADC == TRUE)
 	P0INP |= BV(HAL_ADC_CHN_AIN4);
+	
 	adcRef = HAL_ADC_REF_125V;
 
-	//enable temperature
-	TR0 = 0x01;
+	//enable temperature sensor
 	ATEST = 0x01;
 #endif
 }
@@ -135,14 +135,19 @@ uint16 HalAdcRead (uint8 channel, uint8 resolution)
    * HalAdcRead() has to turn on the pin for every conversion, the results may show a lower voltage
    * than actuality because the pin did not have time to fully charge.
    */
-  if (channel < 8)
-  {
-    for (i=0; i < channel; i++)
-    {
-      adcChannel <<= 1;
-    }
-  }
-
+	if (channel < 8)
+	{
+		for (i=0; i < channel; i++)
+		{
+			adcChannel <<= 1;
+		}
+	}
+	else if (channel == HAL_ADC_CHN_TEMP)
+	{
+		//connect the sensor to adc
+		TR0 = 0x01;
+	}
+	
   /* Enable channel */
   ADCCFG |= adcChannel;
 
