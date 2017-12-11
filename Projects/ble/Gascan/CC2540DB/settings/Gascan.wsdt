@@ -12,7 +12,7 @@
           
           
           
-        <Column0>193</Column0><Column1>39</Column1><Column2>27</Column2><Column3>0</Column3></ColumnWidths>
+        <Column0>133</Column0><Column1>39</Column1><Column2>27</Column2><Column3>0</Column3></ColumnWidths>
       </Workspace>
       <Build>
         
@@ -52,14 +52,14 @@
       
       
       
-    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\drv\HX711.c</Filename><XPos>0</XPos><YPos>222</YPos><SelStart>4124</SelStart><SelEnd>4124</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Gascan.c</Filename><XPos>0</XPos><YPos>646</YPos><SelStart>19425</SelStart><SelEnd>19425</SelEnd></Tab><ActiveTab>1</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Parameter.c</Filename><XPos>0</XPos><YPos>47</YPos><SelStart>843</SelStart><SelEnd>843</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Parameter.h</Filename><XPos>0</XPos><YPos>24</YPos><SelStart>602</SelStart><SelEnd>602</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Packet.c</Filename><XPos>0</XPos><YPos>447</YPos><SelStart>7417</SelStart><SelEnd>7417</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\BleComm.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>310</SelStart><SelEnd>310</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Gascan.h</Filename><XPos>0</XPos><YPos>80</YPos><SelStart>3612</SelStart><SelEnd>3612</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\drv\Meter.c</Filename><XPos>0</XPos><YPos>54</YPos><SelStart>1441</SelStart><SelEnd>1441</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\drv\HX711.c</Filename><XPos>0</XPos><YPos>222</YPos><SelStart>4124</SelStart><SelEnd>4124</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Gascan.c</Filename><XPos>0</XPos><YPos>706</YPos><SelStart>20067</SelStart><SelEnd>20067</SelEnd></Tab><ActiveTab>1</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Parameter.c</Filename><XPos>0</XPos><YPos>47</YPos><SelStart>843</SelStart><SelEnd>843</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Parameter.h</Filename><XPos>0</XPos><YPos>24</YPos><SelStart>602</SelStart><SelEnd>602</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Packet.c</Filename><XPos>0</XPos><YPos>447</YPos><SelStart>7417</SelStart><SelEnd>7417</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\BleComm.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>310</SelStart><SelEnd>310</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Gascan.h</Filename><XPos>0</XPos><YPos>80</YPos><SelStart>3612</SelStart><SelEnd>3612</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\drv\Meter.c</Filename><XPos>0</XPos><YPos>54</YPos><SelStart>1441</SelStart><SelEnd>1441</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
     <Positions>
       
       
       
       
       
-    <Top><Row0><Sizes><Toolbar-002adb00><key>iaridepm.enu1</key></Toolbar-002adb00></Sizes></Row0></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>253</Bottom><Right>279</Right><x>-2</x><y>-2</y><xscreen>342</xscreen><yscreen>175</yscreen><sizeHorzCX>329797</sizeHorzCX><sizeHorzCY>232713</sizeHorzCY><sizeVertCX>270974</sizeVertCX><sizeVertCY>678191</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>199</Bottom><Right>1039</Right><x>-2</x><y>-2</y><xscreen>1041</xscreen><yscreen>201</yscreen><sizeHorzCX>1003857</sizeHorzCX><sizeHorzCY>267287</sizeHorzCY><sizeVertCX>329797</sizeVertCX><sizeVertCY>232713</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+    <Top><Row0><Sizes><Toolbar-0273dde0><key>iaridepm.enu1</key></Toolbar-0273dde0></Sizes></Row0></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>510</Bottom><Right>219</Right><x>-2</x><y>-2</y><xscreen>368</xscreen><yscreen>175</yscreen><sizeHorzCX>319444</sizeHorzCX><sizeHorzCY>232095</sizeHorzCY><sizeVertCX>191840</sizeVertCX><sizeVertCY>679045</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>199</Bottom><Right>1154</Right><x>-2</x><y>-2</y><xscreen>1156</xscreen><yscreen>201</yscreen><sizeHorzCX>1003472</sizeHorzCX><sizeHorzCY>266578</sizeHorzCY><sizeVertCX>319444</sizeVertCX><sizeVertCY>232095</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
   </Desktop>
 </Workspace>
 

@@ -111,7 +111,7 @@ static void MeasureCallback(uint16 kPa)
 	uint8 index = 0;
 	
 	if (s_dataMap & DATA_TEMPERATURE_MASK)
-	{
+	{	
 		uint16 temp = GetTemperature();
 		if (temp & (1u << 15))
 		{

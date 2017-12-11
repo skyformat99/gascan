@@ -41,10 +41,33 @@ void SetTemperatureCaliItem(const struct TemperatureCalirationItem *caliItem)
 
 uint16 GetTemperature()
 {
-	uint32 res = HalAdcRead(HAL_ADC_CHN_TEMP, HAL_ADC_RESOLUTION_12);
+	//filter first
+	uint16 tempAdc = HalAdcRead(HAL_ADC_CHN_TEMP, HAL_ADC_RESOLUTION_12);
+	uint16 maxAdc = tempAdc;
+	uint16 minAdc = tempAdc;
+	uint32 sum = tempAdc;
+	for (int i = 1; i < 6; i++)
+	{
+		tempAdc = HalAdcRead(HAL_ADC_CHN_TEMP, HAL_ADC_RESOLUTION_12);
+		if (maxAdc < tempAdc)
+		{
+			maxAdc = tempAdc;
+		}
+
+		if (minAdc > tempAdc)
+		{
+			minAdc = tempAdc;
+		}
+
+		sum += tempAdc;
+	}
+	sum -= minAdc + maxAdc;
+
+	uint32 res = sum / 4;
 
 	TRACE("temp adc:%d\r\n", res);	
 	TRACE("temp cali adc:%d\r\n", s_temperatureCaliItem->adc);
+
 	
 	//original formula
 	//val = (x - 1480) / 4.5 + 125 - 100

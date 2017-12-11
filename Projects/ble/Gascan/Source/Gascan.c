@@ -716,7 +716,6 @@ static void peripheralStateNotificationCB(gaprole_States_t newState)
 static void GascanProfileChangeCB(uint8 paramID, uint8 len)
 {
 	uint8 buf[20];
-
 	switch (paramID)
 	{
     case GASCANPROFILE_TRX:
