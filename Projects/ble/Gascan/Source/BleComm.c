@@ -42,9 +42,6 @@ static CalibrationStatus s_caliStatus = status_calibration_idle;
 static struct PressureCalibrationItem s_caliItem[MAX_CALIBRATION_COUNT];
 static uint8 s_caliItemCount = 0;
 
-//for temperature calibration
-static struct TemperatureCalirationItem s_temperatureCaliItem;
-
 // whether needs update parameter
 static bool needUpdateParam = false;
 
@@ -174,17 +171,6 @@ static void ProcessMeasurePacket(uint8 dataMap)
 
 		reason = REASON_PRESSURE_CALIBRATION_BEING_DONE;
 	}
-			
-	if (dataMap & DATA_TEMPERATURE_MASK)
-	{
-		if (g_tempCaliItem.adc == 0)
-		{
-			//temperature not calibrated
-			result = RESULT_FAILED;
-
-			reason = REASON_TEMP_NOT_CALIBRATED;
-		}
-	}
 	
 	if (dataMap & DATA_PRESSURE_MASK)
 	{
@@ -220,74 +206,9 @@ static void ProcessStartCalibration(uint8 type, uint8 start)
 
 	if (type == CALIBRATION_TYPE_TEMP)
 	{
-		//temperature calibration
-		if (start == CALIBRATION_START)
-		{
-			if (s_caliStatus == status_temperature_calibration_ready)
-			{
-				//temperature calibration already started
-				result = RESULT_FAILED;
-	
-				reason = REASON_TEMP_CALIBRATE_STARTED;
-			}
-			else if (s_caliStatus == status_pressure_calibration_ready)
-			{
-				//pressure calibration already started
-				result = RESULT_FAILED;
-	
-				reason = REASON_PRESSURE_CALIBRATE_STARTED;
-			}
-			else if (s_caliStatus == status_pressure_calibrating)
-			{
-				//pressure calibration is being done
-				result = RESULT_FAILED;
-	
-				reason = REASON_PRESSURE_CALIBRATION_BEING_DONE;
-			}
-			else
-			{
-				//idle
-				result = RESULT_OK;
-				
-				reason = REASON_NONE;
-				
-				s_caliStatus = status_temperature_calibration_ready;
-			}
-		}
-		else
-		{
-			if (s_caliStatus == status_pressure_calibration_ready)
-			{
-				result = RESULT_FAILED;
-	
-				reason = REASON_PRESSURE_CALIBRATE_STARTED;
-			}
-			else if (s_caliStatus == status_pressure_calibrating)
-			{
-				result = RESULT_FAILED;
-	
-				reason = REASON_PRESSURE_CALIBRATION_BEING_DONE;
-			}
-			else if (s_caliStatus == status_calibration_idle)
-			{
-				result = RESULT_FAILED;
-	
-				reason = REASON_TEMP_CALIBRATE_NOT_STARTED;
-			}
-			else
-			{
-				g_tempCaliItem = s_temperatureCaliItem;
-					
-				result = RESULT_OK;
-				reason = REASON_NONE;
-	
-				SetTemperatureCaliItem(&g_tempCaliItem);
-	
-				needUpdateParam = true;
-	
-				s_caliStatus = status_calibration_idle;
-			}
-		}
+	  	//no need to calibrate temperature now
+	 	result = RESULT_FAILED;
+		reason = REASON_NONE;
 	}
 	else if (type == CALIBRATION_TYPE_PRESSURE)
 	{
@@ -406,65 +327,10 @@ static void PressureCalibrateCallback(uint16 kPa, uint32 adc)
 
 static void ProcessTemperatureCalibrate(uint16 temperature)
 {
-	uint8 result;
+  	//no need to calibrate temperature now
+	uint8 result = RESULT_FAILED;
 
-	uint8 reason;
-	
-	TRACE("temp calibration:%dC\r\n", temperature);
-	
-	if (s_caliStatus == status_calibration_idle)
-	{
-		result = RESULT_FAILED;
-		
-		reason = REASON_TEMP_CALIBRATE_NOT_STARTED;
-	}
-	else if (s_caliStatus == status_pressure_calibration_ready)
-	{
-		result = RESULT_FAILED;
-		
-		reason = REASON_PRESSURE_CALIBRATE_STARTED;
-	}
-	else if (s_caliStatus == status_pressure_calibrating)
-	{
-		result = RESULT_FAILED;
-
-		reason = REASON_PRESSURE_CALIBRATION_BEING_DONE;
-	}
-	else
-	{
-		result = RESULT_OK;
-			
-		reason = REASON_NONE;
-
-		//filter
-		uint16 tempAdc = GetTemperatureAdc();
-		uint16 maxAdc = tempAdc;
-		uint16 minAdc = tempAdc;
-		uint32 sum = tempAdc;
-		for (int i = 1; i < 6; i++)
-		{
-			tempAdc = GetTemperatureAdc();
-			if (maxAdc < tempAdc)
-			{
-				maxAdc = tempAdc;
-			}
-
-			if (minAdc > tempAdc)
-			{
-				minAdc = tempAdc;
-			}
-
-			sum += tempAdc;
-		}
-
-		sum -= minAdc + maxAdc;
-		sum /= 4;
-		
-		s_temperatureCaliItem.adc = (uint16)sum;
-		s_temperatureCaliItem.temperature = temperature;
-
-		TRACE("temp adc:%d\r\n", s_temperatureCaliItem.adc);
-	}
+	uint8 reason = REASON_NONE;
 	
 	uint8 buf[MAX_PACKET_LEN];
 
@@ -545,9 +411,10 @@ static void ProcessTestPacket(uint8 dataMap, const uint16 *testData)
 void ProcessBleCom(const uint8 *buf, uint8 len)
 {
 	//for echo test
+#if 0
 	//GascanProfile_Notify(buf, len);
 	//ProcessSetBleName("zhuwenhui");
-#if 1
+#else
 	uint8 parsedLen;
 
 	uint8 res = ParsePacket(buf, len, &parsedLen);

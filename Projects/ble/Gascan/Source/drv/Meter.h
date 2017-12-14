@@ -5,18 +5,12 @@
 //mV
 #define  LOW_POWER_THRESHOLD       280ul
 
-struct TemperatureCalirationItem;
-
-
 //unit of returned value is 100mV
 extern uint16 GetBatteryVoltage();
 
-//unit of returned value is 0.1C
-extern void SetTemperatureCaliItem(const struct TemperatureCalirationItem *caliItem);
+#define INVALID_TEMPERATURE      0xffff
 
 extern uint16 GetTemperature();
-
-extern uint16 GetTemperatureAdc();
 
 #endif
 

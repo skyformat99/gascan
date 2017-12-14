@@ -4,31 +4,34 @@
   <Desktop>
     <Static>
       <Debug-Log>
-        <ColumnWidth0>20</ColumnWidth0>
-        <ColumnWidth1>1111</ColumnWidth1>
-      </Debug-Log>
+        
+        
+      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>1111</ColumnWidth1></Debug-Log>
       <Build>
-        <ColumnWidth0>20</ColumnWidth0>
-        <ColumnWidth1>833</ColumnWidth1>
-        <ColumnWidth2>222</ColumnWidth2>
-        <ColumnWidth3>55</ColumnWidth3>
-      </Build>
+        
+        
+        
+        
+      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>833</ColumnWidth1><ColumnWidth2>222</ColumnWidth2><ColumnWidth3>55</ColumnWidth3></Build>
       <Workspace>
         <ColumnWidths>
-          <Column0>124</Column0>
-          <Column1>27</Column1>
-          <Column2>27</Column2>
-          <Column3>27</Column3>
-        </ColumnWidths>
+          
+          
+          
+          
+        <Column0>119</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
       </Workspace>
       <Disassembly>
-        <MixedMode>1</MixedMode>
-        <CodeCovShow>1</CodeCovShow>
-        <InstrProfShow>1</InstrProfShow>
-      </Disassembly>
+        
+        
+        
+      <MixedMode>1</MixedMode><CodeCovShow>1</CodeCovShow><InstrProfShow>1</InstrProfShow></Disassembly>
     </Static>
     <Windows>
-      <Wnd0>
+      
+      
+      
+    <Wnd0>
         <Tabs>
           <Tab>
             <Identity>TabID-31563-26473</Identity>
@@ -43,24 +46,20 @@
             <Session/>
           </Tab>
         </Tabs>
-        <SelectedTab>1</SelectedTab>
-      </Wnd0>
-      <Wnd1>
+        
+      <SelectedTab>0</SelectedTab></Wnd0><Wnd1>
         <Tabs>
           <Tab>
             <Identity>TabID-9543-26476</Identity>
             <TabName>Workspace</TabName>
             <Factory>Workspace</Factory>
             <Session>
-              <NodeDict>
-                <ExpandedNode>Gascan</ExpandedNode>
-              </NodeDict>
-            </Session>
+              
+            <NodeDict><ExpandedNode>Gascan</ExpandedNode></NodeDict></Session>
           </Tab>
         </Tabs>
-        <SelectedTab>0</SelectedTab>
-      </Wnd1>
-      <Wnd2>
+        
+      <SelectedTab>0</SelectedTab></Wnd1><Wnd2>
         <Tabs>
           <Tab>
             <Identity>TabID-20292-26479</Identity>
@@ -69,181 +68,21 @@
             <Session/>
           </Tab>
         </Tabs>
-        <SelectedTab>0</SelectedTab>
-      </Wnd2>
-    </Windows>
+        
+      <SelectedTab>0</SelectedTab></Wnd2></Windows>
     <Editor>
-      <Pane>
-        <Tab>
-          <Factory>TextEditor</Factory>
-          <Filename>$WS_DIR$\..\Source\Gascan.c</Filename>
-          <XPos>0</XPos>
-          <YPos>290</YPos>
-          <SelStart>9011</SelStart>
-          <SelEnd>9011</SelEnd>
-        </Tab>
-        <Tab>
-          <Factory>TextEditor</Factory>
-          <Filename>$WS_DIR$\..\Source\Gascan.h</Filename>
-          <XPos>0</XPos>
-          <YPos>54</YPos>
-          <SelStart>2779</SelStart>
-          <SelEnd>2796</SelEnd>
-        </Tab>
-        <Tab>
-          <Factory>TextEditor</Factory>
-          <Filename>$WS_DIR$\..\..\Profiles\SimpleProfile\gascanGATTprofile.h</Filename>
-          <XPos>0</XPos>
-          <YPos>74</YPos>
-          <SelStart>3405</SelStart>
-          <SelEnd>3405</SelEnd>
-        </Tab>
-        <Tab>
-          <Factory>TextEditor</Factory>
-          <Filename>$WS_DIR$\..\..\Profiles\SimpleProfile\gascanGATTprofile.c</Filename>
-          <XPos>8</XPos>
-          <YPos>290</YPos>
-          <SelStart>9911</SelStart>
-          <SelEnd>9911</SelEnd>
-        </Tab>
-        <Tab>
-          <Factory>TextEditor</Factory>
-          <Filename>$WS_DIR$\..\Source\drv\HX711.c</Filename>
-          <XPos>0</XPos>
-          <YPos>111</YPos>
-          <SelStart>2438</SelStart>
-          <SelEnd>2438</SelEnd>
-        </Tab>
-        <ActiveTab>4</ActiveTab>
-        <Tab>
-          <Factory>TextEditor</Factory>
-          <Filename>$WS_DIR$\..\..\..\..\Components\hal\common\hal_drivers.c</Filename>
-          <XPos>0</XPos>
-          <YPos>259</YPos>
-          <SelStart>8176</SelStart>
-          <SelEnd>8176</SelEnd>
-        </Tab>
-        <Tab>
-          <Factory>TextEditor</Factory>
-          <Filename>$WS_DIR$\..\..\..\..\Components\osal\include\OSAL.h</Filename>
-          <XPos>0</XPos>
-          <YPos>0</YPos>
-          <SelStart>1303</SelStart>
-          <SelEnd>1303</SelEnd>
-        </Tab>
-        <Tab>
-          <Factory>TextEditor</Factory>
-          <Filename>$WS_DIR$\..\..\..\..\Components\hal\target\CC2540EB\_hal_uart_dma.c</Filename>
-          <XPos>0</XPos>
-          <YPos>392</YPos>
-          <SelStart>16270</SelStart>
-          <SelEnd>16270</SelEnd>
-        </Tab>
-        <Tab>
-          <Factory>TextEditor</Factory>
-          <Filename>$WS_DIR$\..\Source\Gascan_Main.c</Filename>
-          <XPos>0</XPos>
-          <YPos>63</YPos>
-          <SelStart>3565</SelStart>
-          <SelEnd>3565</SelEnd>
-        </Tab>
-      </Pane>
-      <ActivePane>0</ActivePane>
-      <Sizes>
-        <Pane>
-          <X>1000000</X>
-          <Y>1000000</Y>
-        </Pane>
-      </Sizes>
-      <SplitMode>1</SplitMode>
-    </Editor>
+      
+      
+      
+      
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Gascan.c</Filename><XPos>0</XPos><YPos>343</YPos><SelStart>11231</SelStart><SelEnd>11231</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Parameter.c</Filename><XPos>0</XPos><YPos>47</YPos><SelStart>843</SelStart><SelEnd>843</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Parameter.h</Filename><XPos>0</XPos><YPos>24</YPos><SelStart>602</SelStart><SelEnd>602</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Packet.c</Filename><XPos>0</XPos><YPos>447</YPos><SelStart>7417</SelStart><SelEnd>7417</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\BleComm.c</Filename><XPos>0</XPos><YPos>33</YPos><SelStart>822</SelStart><SelEnd>822</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Gascan.h</Filename><XPos>0</XPos><YPos>80</YPos><SelStart>3612</SelStart><SelEnd>3612</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\drv\Meter.c</Filename><XPos>0</XPos><YPos>42</YPos><SelStart>923</SelStart><SelEnd>923</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\drv\I2CDevice.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\drv\Pressure.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>380</SelStart><SelEnd>380</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\drv\TMP75.c</Filename><XPos>0</XPos><YPos>72</YPos><SelStart>1484</SelStart><SelEnd>1484</SelEnd></Tab><ActiveTab>9</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Gascan_Main.c</Filename><XPos>0</XPos><YPos>64</YPos><SelStart>3598</SelStart><SelEnd>3598</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
     <Positions>
-      <Top>
-        <Row0>
-          <Sizes>
-            <Toolbar-026bdbf0>
-              <key>iaridepm.enu1</key>
-            </Toolbar-026bdbf0>
-          </Sizes>
-        </Row0>
-        <Row1>
-          <Sizes>
-            <Toolbar-15ecab10>
-              <key>debuggergui.enu1</key>
-            </Toolbar-15ecab10>
-          </Sizes>
-        </Row1>
-      </Top>
-      <Left>
-        <Row0>
-          <Sizes>
-            <Wnd1>
-              <Rect>
-                <Top>-2</Top>
-                <Left>-2</Left>
-                <Bottom>514</Bottom>
-                <Right>198</Right>
-                <x>-2</x>
-                <y>-2</y>
-                <xscreen>200</xscreen>
-                <yscreen>200</yscreen>
-                <sizeHorzCX>170940</sizeHorzCX>
-                <sizeHorzCY>256082</sizeHorzCY>
-                <sizeVertCX>170940</sizeVertCX>
-                <sizeVertCY>660691</sizeVertCY>
-              </Rect>
-            </Wnd1>
-          </Sizes>
-        </Row0>
-      </Left>
-      <Right>
-        <Row0>
-          <Sizes>
-            <Wnd2>
-              <Rect>
-                <Top>-2</Top>
-                <Left>-2</Left>
-                <Bottom>514</Bottom>
-                <Right>198</Right>
-                <x>-2</x>
-                <y>-2</y>
-                <xscreen>200</xscreen>
-                <yscreen>200</yscreen>
-                <sizeHorzCX>170940</sizeHorzCX>
-                <sizeHorzCY>256082</sizeHorzCY>
-                <sizeVertCX>170940</sizeVertCX>
-                <sizeVertCY>660691</sizeVertCY>
-              </Rect>
-            </Wnd2>
-          </Sizes>
-        </Row0>
-      </Right>
-      <Bottom>
-        <Row0>
-          <Sizes>
-            <Wnd0>
-              <Rect>
-                <Top>-2</Top>
-                <Left>-2</Left>
-                <Bottom>198</Bottom>
-                <Right>1172</Right>
-                <x>-2</x>
-                <y>-2</y>
-                <xscreen>1174</xscreen>
-                <yscreen>200</yscreen>
-                <sizeHorzCX>1003419</sizeHorzCX>
-                <sizeHorzCY>256082</sizeHorzCY>
-                <sizeVertCX>170940</sizeVertCX>
-                <sizeVertCY>256082</sizeVertCY>
-              </Rect>
-            </Wnd0>
-          </Sizes>
-        </Row0>
-      </Bottom>
-      <Float>
-        <Sizes/>
-      </Float>
-    </Positions>
+      
+      
+      
+      
+      
+    <Top><Row0><Sizes><Toolbar-0259db00><key>iaridepm.enu1</key></Toolbar-0259db00></Sizes></Row0><Row1><Sizes><Toolbar-10d2ef40><key>debuggergui.enu1</key></Toolbar-10d2ef40></Sizes></Row1></Top><Left><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>519</Bottom><Right>193</Right><x>-2</x><y>-2</y><xscreen>195</xscreen><yscreen>202</yscreen><sizeHorzCX>171053</sizeHorzCX><sizeHorzCY>256345</sizeHorzCY><sizeVertCX>171053</sizeVertCX><sizeVertCY>661168</sizeVertCY></Rect></Wnd1></Sizes></Row0></Left><Right><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>519</Bottom><Right>193</Right><x>-2</x><y>-2</y><xscreen>195</xscreen><yscreen>202</yscreen><sizeHorzCX>171053</sizeHorzCX><sizeHorzCY>256345</sizeHorzCY><sizeVertCX>171053</sizeVertCX><sizeVertCY>661168</sizeVertCY></Rect></Wnd2></Sizes></Row0></Right><Bottom><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>200</Bottom><Right>1142</Right><x>-2</x><y>-2</y><xscreen>1144</xscreen><yscreen>202</yscreen><sizeHorzCX>1003509</sizeHorzCX><sizeHorzCY>256345</sizeHorzCY><sizeVertCX>171053</sizeVertCX><sizeVertCY>256345</sizeVertCY></Rect></Wnd0></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
   </Desktop>
 </Project>
 

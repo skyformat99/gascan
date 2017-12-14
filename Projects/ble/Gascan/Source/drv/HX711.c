@@ -1,8 +1,8 @@
 #include "comdef.h"
 #include "hal_types.h"
+#include "osal.h"
 
 #include "hal_drivers.h"
-#include "osal.h"
 #include "hal_mcu.h"
 
 #include "PinDefine.h"
@@ -38,16 +38,15 @@
 #define HX711_PORT_MODE    P0INP
 #define HX711_PORT_MODEBIT BV(6)
 
-#define SLEEP_TIMEOUT        10000ul
-
 //callback
 static void (*s_hx711callback)(uint32) = NULL;
 
 static bool s_repeat = false;
 
-#define TRUE_ADC_COUNT     5
+//ignore first several adc value
+#define IGNORE_ADC_COUNT     5
 
-static uint8 s_trueAdcCount = 0;
+static uint8 s_ignoreAdcCount = 0;
 
 static Hx711Gain s_gain = Channel_A_128;
 
@@ -162,22 +161,22 @@ void StartHx711(void (*callback)(uint32), Hx711Gain gain, bool repeat)
 	{
 		if (gain == Channel_A_128)
 		{
-			s_trueAdcCount = 0;
+			s_ignoreAdcCount = 0;
 		}
 		else
 		{
-			s_trueAdcCount = TRUE_ADC_COUNT;
+			s_ignoreAdcCount = IGNORE_ADC_COUNT;
 		}
 	}
 	else
 	{
 		if (s_gain == gain)
 		{
-			s_trueAdcCount = 0;
+			s_ignoreAdcCount = 0;
 		}
 		else
 		{
-			s_trueAdcCount = TRUE_ADC_COUNT;
+			s_ignoreAdcCount = IGNORE_ADC_COUNT;
 		}
 	}
 
@@ -201,9 +200,6 @@ void StartHx711(void (*callback)(uint32), Hx711Gain gain, bool repeat)
 	EnableDoutInterrupt(true);
 
 	s_bInSleep = false;
-
-	//for timeout
-	osal_start_timerEx(Hal_TaskID, HX711_SLEEP_EVENT, SLEEP_TIMEOUT);
 }
 
 void StopHx711()
@@ -227,17 +223,17 @@ void ProcessHx711Event()
 {
 	uint32 adc = GetHx711ADCValue();
 
-	//TRACE("adc count:%d,skip:%d\r\n", s_trueAdcCount, s_skipClkCount);
+	//TRACE("adc count:%d,skip:%d\r\n", s_ignoreAdcCount, s_skipClkCount);
 	TRACE("adc:0x%08lX\r\n", adc);
 	
-	if (s_trueAdcCount > 0 || s_repeat)
+	if (s_ignoreAdcCount > 0 || s_repeat)
 	{
 		EnableDoutInterrupt(true);
 	}
 
-	if (s_trueAdcCount > 0)
+	if (s_ignoreAdcCount > 0)
 	{
-		s_trueAdcCount--;
+		s_ignoreAdcCount--;
 	}
 	else
 	{

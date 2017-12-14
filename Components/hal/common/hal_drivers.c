@@ -70,7 +70,10 @@
 #include "usb_hid.h"
 #endif
 
+#include "I2C.h"
 #include "24Cxx.h"
+#include "TMP75.h"
+
 #include "Hx711.h"
 #include "Pressure.h"
 
@@ -113,9 +116,13 @@ void Hal_Init( uint8 task_id )
  **************************************************************************************************/
 void HalDriverInit (void)
 {
+	InitI2C();
+
 	Init24Cxx();
 	
 	InitPressure();
+
+	InitTMP75();
 	
   /* TIMER */
 #if (defined HAL_TIMER) && (HAL_TIMER == TRUE)
@@ -230,11 +237,11 @@ uint16 Hal_ProcessEvent( uint8 task_id, uint16 events )
 		return events ^ HX711_DOUT_EVENT;
 	}
 
-	if (events & HX711_SLEEP_EVENT)
+	if (events & PRESSURE_STOP_EVENT)
 	{
-		EnterHx711SleepMode();
+		StopMeasure();
 		
-		return events ^ HX711_SLEEP_EVENT;
+		return events ^ PRESSURE_STOP_EVENT;
 	}
 	
   if (events & (HAL_KEY_EVENT << KEY_1))

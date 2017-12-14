@@ -4,72 +4,8 @@
 #include "I2C.h"
 #include "24Cxx.h"
 
-#if 0
-struct PageData
-{
-	const uint8 *pData;
-
-	uint8 addr;
-	
-	uint8 size;
-
-	struct PageData *next;
-};
-
-static struct PageData *s_pageHeader = NULL;
-
-void Write24CxxDataNoBlock(uint16 addr, const uint8 *pData, uint16 size)
-{
-	uint16 left = size;
-		
-	uint16 pageOffset = addr % EEPROM_PAGE_SIZE;
-
-	uint16 pageRemain = EEPROM_PAGE_SIZE - pageOffset;
-	
-	if (pageRemain > left)
-	{
-		pageRemain = left;
-	}
-
-	if (pageRemain < EEPROM_PAGE_SIZE)
-	{
-		struct PageData *page = osal_
-		
-		left -= pageRemain;
-		pData += pageRemain;
-		addr += pageRemain;
-	}
-	
-	while (left >= EEPROM_PAGE_SIZE)
-	{
-		if (!Write24CxxDataPage(addr, pData, EEPROM_PAGE_SIZE))
-		{
-			return false;
-		}
-			
-		pData += EEPROM_PAGE_SIZE;
-		addr += EEPROM_PAGE_SIZE;
-		
-		left -= EEPROM_PAGE_SIZE;
-	}
-	
-	if (left > 0)
-	{
-		if (!Write24CxxDataPage(addr, pData, left))
-		{
-			return false;
-		}
-	}
-	
-	return true;
-
-}
-
-#endif
-
 void Init24Cxx()
 {
-	InitI2C();
 }
 
 static bool Write24CxxByteInternal(uint8 devAddr, uint16 addr, uint8 addrLen, uint8 dat)
@@ -105,7 +41,7 @@ static bool Write24CxxByteInternal(uint8 devAddr, uint16 addr, uint8 addrLen, ui
 		I2CStop();
 		return false;
 	}
-	
+	 
 	I2CStop();
 
 	//Polling

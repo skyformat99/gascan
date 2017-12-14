@@ -1,7 +1,11 @@
 #include "comdef.h"
 #include "hal_types.h"
 
+#include "osal.h"
+#include "hal_drivers.h"
+
 #include "Hx711.h"
+#include "TMP75.h"
 
 #include "Parameter.h"
 #include "Pressure.h"
@@ -36,6 +40,8 @@ static uint32 s_adcMin = 0;
 
 static const struct PressureCalibrationItem *s_caliItem = NULL;
 static uint8 s_caliItemCount = 0;
+
+#define STOP_MEASURE_TIMEOUT        10000ul
 
 void InitPressure()
 {
@@ -143,7 +149,12 @@ void StartMeasure(void (*callback)(uint16 kPa))
 	
 	StartHx711(AdcCallback, Channel_A_64, false);
 
+	StartTMP75Conversion();
+	
 	s_measureStatus = pressure_status_measuring;
+
+	//for timeout
+	osal_start_timerEx(Hal_TaskID, PRESSURE_STOP_EVENT, STOP_MEASURE_TIMEOUT);
 }
 
 void StartCalibrate(void (*callback)(uint16 kPa, uint32 adc), uint16 kPa)
@@ -165,8 +176,12 @@ void StartCalibrate(void (*callback)(uint16 kPa, uint32 adc), uint16 kPa)
 void StopMeasure()
 {
 	s_measureCallback = NULL;
-	
+
 	StopHx711();
+
+	EnterHx711SleepMode();
+
+	StopTMP75Conversion();
 	
 	s_measureStatus = pressure_status_idle;
 }

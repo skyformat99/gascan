@@ -5,14 +5,14 @@
 
 #include "Parameter.h"
 
+#include "TMP75.h"
+
 #include "Meter.h"
 
 #include "npi.h"
 
 //125mV
 #define REF_VOLTAGE      124ul
-
-static const struct TemperatureCalirationItem *s_temperatureCaliItem = NULL;
 
 uint16 GetBatteryVoltage()
 {
@@ -34,56 +34,30 @@ uint16 GetBatteryVoltage()
 	
 }
 
-void SetTemperatureCaliItem(const struct TemperatureCalirationItem *caliItem)
-{
-	s_temperatureCaliItem = caliItem;
-}
-
 uint16 GetTemperature()
 {
-	uint32 res = HalAdcRead(HAL_ADC_CHN_TEMP, HAL_ADC_RESOLUTION_12);
-
-	TRACE("temp adc:%d\r\n", res);	
-	TRACE("temp cali adc:%d\r\n", s_temperatureCaliItem->adc);
+	uint16 res = INVALID_TEMPERATURE;
 	
-	//original formula
-	//val = (x - 1480) / 4.5 + 125 - 100
-	//res *= 100;
-	//res = (res - 136750) / 45;
-
-	//calibrated formula
-	//val = (res - s_temperatureCaliItem->adc) / 4.5 + 100 + s_temperatureCaliItem.temperature - 100;
-	res *= 100ul;
-	if (s_temperatureCaliItem->temperature & (1u << 15))
+	uint16 tempValue;
+	if (GetTMP75Temperature(&tempValue))
 	{
-		//minus temperature
-		res += (100 * 10 - s_temperatureCaliItem->temperature & ~(1u << 15)) * 45ul;
-	}
-	else
-	{
-		res += (100 * 10 + s_temperatureCaliItem->temperature) * 45ul;
-	}
-	
-	res -= s_temperatureCaliItem->adc * 100ul;
-	res /= 45ul;
-	
-	if (res >= 1000)
-	{
-		//positive
-		res -= 1000;
-	}
-	else
-	{	
-		//negative
-		res = (1000 - res) | (1u << 15);
-	}
+		TRACE("temperature:0x%04X\r\n", tempValue);
+		bool sign = false;
+		if (tempValue & 0x8000)
+		{
+			sign = true;
 
-	return (uint16)res;
-}
+			tempValue = ~tempValue + 1;
+		}
 
-uint16 GetTemperatureAdc()
-{
-	uint16 res = HalAdcRead(HAL_ADC_CHN_TEMP, HAL_ADC_RESOLUTION_12);
+		res = tempValue * 10 / 16; //12bit
+
+		TRACE("temp:%d\r\n", res);
+		if (sign)
+		{
+			res |= (1u << 15);
+		}
+	}
 
 	return res;
 }

@@ -59,7 +59,7 @@ extern "C"
 #define HAL_LED_BLINK_EVENT                 0x0020
 #define HX711_DOUT_EVENT                    0x0010
 
-#define HX711_SLEEP_EVENT                   0x0100
+#define PRESSURE_STOP_EVENT                 0x0100
 
 #define HAL_KEY_EVENT                       0x0200
 

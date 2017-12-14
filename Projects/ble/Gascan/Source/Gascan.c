@@ -356,9 +356,7 @@ void Gascan_Init( uint8 task_id )
 	SetBleName(g_bleName);
 	
 	SetCalibration(g_pressureCaliItem, g_pressureCaliItemCount);
-	SetTemperatureCaliItem(&g_tempCaliItem);
-	TRACE("temp:%d,cali adc:%d\r\n", g_tempCaliItem.temperature, g_tempCaliItem.adc);
-		
+
   	hciStatus_t hci_status = HCI_EXT_SetTxPowerCmd(HCI_EXT_TX_POWER_4_DBM);
 
   	HCI_EXT_HaltDuringRfCmd(HCI_EXT_HALT_DURING_RF_DISABLE);
